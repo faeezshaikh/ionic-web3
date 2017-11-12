@@ -48,12 +48,7 @@ export class HomePage {
 
   submit() {
     console.log('submit clicked');
-    
-    this.smartContract = this.web3Service.getSmartContract();
-    this.smartContract.setInstructor(this.web3.eth.defaultAccount,32, "faeez", "shaikh", (err, res) => {
-      if (err) 
-        console.error(err);
-});
+    this.web3Service.submitToSmartContract(55,'dad','sad');
   }
 
 }

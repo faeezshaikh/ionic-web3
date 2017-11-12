@@ -23,7 +23,7 @@ export class Web3ServiceProvider {
         // Step 3: Get Interface to the contact - ABI from remix
         var CoursetroContract = this.web3.eth.contract([{"constant":true,"inputs":[{"name":"_address","type":"address"}],"name":"getInstructor","outputs":[{"name":"","type":"uint256"},{"name":"","type":"bytes16"},{"name":"","type":"bytes16"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getInstructors","outputs":[{"name":"","type":"address[]"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"instructorAccts","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"countInstructors","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_address","type":"address"},{"name":"_age","type":"uint256"},{"name":"_fName","type":"bytes16"},{"name":"_lName","type":"bytes16"}],"name":"setInstructor","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"name":"fName","type":"bytes16"},{"indexed":false,"name":"lName","type":"bytes16"},{"indexed":false,"name":"age","type":"uint256"}],"name":"instructorInfo","type":"event"}]);
         // Step 4: Get Contract instance at the address from remix
-        this.Coursetro = CoursetroContract.at('0xc0ed63e3a70bfcb003452b1cc083db822e1f23e1');
+        this.Coursetro = CoursetroContract.at('0x8cdaf0cd259887258bc13a92c0a6da92698644c0');
         console.log("Got the smart contract ==> " , this.Coursetro);
 
         var instructorEvent = this.Coursetro.instructorInfo({},'latest');
@@ -39,7 +39,7 @@ export class Web3ServiceProvider {
                     console.log(result);
                     
                     console.log(result.blockHash);
-                    console.log('Age => ',result.args.age.toString(10));
+                    console.log('Age => ',that.web3.toDecimal(result.args.age));
                     console.log('Last name: ', that.web3.toAscii(result.args.lName));
                     console.log('Name: ' , that.web3.toAscii(result.args.fName)) ;
                     
@@ -64,6 +64,14 @@ export class Web3ServiceProvider {
 
   public getSmartContract() {
     return this.Coursetro;
+  }
+
+  public submitToSmartContract(age,fName,lName) {
+    console.log('calling smart contract');
+    this.Coursetro.setInstructor(this.web3.eth.defaultAccount,age,fName,lName, (err, res) => {
+      if (err) 
+        console.error(err);
+    });
   }
 
 }
