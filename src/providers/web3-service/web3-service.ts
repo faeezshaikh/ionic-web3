@@ -36,7 +36,8 @@ export class Web3ServiceProvider {
                     // this.fName = this.web3.toAscii(result.args.fName);
                     // this.lName = this.web3.toAscii(result.args.lName);
                     // this.age = result.args.age;
-                    console.log(result);
+                    console.log("Result => ", result);
+                    console.log("Result.args => ", result.args);
                     
                     console.log(result.blockHash);
                     console.log('Age => ',that.web3.toDecimal(result.args.age));
